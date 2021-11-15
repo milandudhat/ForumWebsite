@@ -12,11 +12,6 @@
     <link rel="stylesheet" href="./style.css">
     <title>forum website</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-    .contforques {
-        min-height: 500px;
-    }
-    </style>
 </head>
 
 <body>
@@ -51,7 +46,7 @@
         </div>
     </div>
     <div class="container">
-        <h3>Browse Questions</h3>
+        <h3>Post Comments</h3>
     </div>
     <!-- <?php
         $cat_id = $_GET['cat_id'];

@@ -12,11 +12,7 @@
     <link rel="stylesheet" href="./style.css">
     <title>forum website</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-    .contforques {
-        min-height: 500px;
-    }
-    </style>
+
 </head>
 
 <body>
@@ -38,6 +34,24 @@
                 $cat_desc = $row['cat_desc'];
         }
     ?>
+    <?php
+    $showalert = false; 
+        if($_SERVER['REQUEST_METHOD'] == "POST"){
+            $th_title = $_POST['title'];
+            $th_desc = $_POST['desc'];
+
+            $sql = "INSERT INTO `thread` (`t_name`, `t_desc`, `t_cat_id`, `t_user_id`, `date`) VALUES ('$th_title', '$th_desc', '$cat_id', '0', current_timestamp());";
+            $result = mysqli_query($cont , $sql);
+            $showalert = true;
+            if($showalert){
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>success!</strong> your data submit waiting for responce.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+            }
+        }
+        
+    ?>
     <div class="container my-4 text-center ">
         <div class="jumbotron bg-dark text-white my-3">
             <h1 class="display-4 mt-3">Welcome to <?php echo $cat_name;?> forums</h1>
@@ -49,6 +63,24 @@
             <a class="btn btn-success btn-lgv mb-2" href="#" role="button">Learn more</a>
         </div>
     </div>
+
+    <div class="container">
+        <h2>Start discussion</h2>
+        <form action=" <?php $_SERVER["REQUEST_URI"] ?>" method="post">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Problem Title</label>
+                <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
+                <small id="emailHelp" class="form-text text-muted">Keep your title as short and crisp as
+                    possible</small>
+            </div>
+            <input type="hidden" name="sno" value="">
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Ellaborate Your Concern</label>
+                <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success my-2">Submit</button>
+        </form>
+    </div>
     <div class="container">
         <h3>Browse Questions</h3>
     </div>
@@ -56,14 +88,15 @@
         $cat_id = $_GET['cat_id'];
         $sql = "SELECT * FROM `thread` WHERE `t_cat_id` = $cat_id";
         $result = mysqli_query($cont , $sql);
-
+        $no_threadfound = true;
 
         while($row = mysqli_fetch_assoc($result)){
+                $no_threadfound = false;
                 $t_id = $row['t_id'];
                 $t_name = $row['t_name'];
                 $t_desc = $row['t_desc'];
 
-                echo '<div class="container my-4 contforques">
+                echo '<div class="container my-4 ">
                 <div class="d-flex">
                     <div class="flex-shrink-0">
                         <img src="element/user.png" width=50px alt="...">
@@ -75,6 +108,16 @@
                 </div>
             </div>';
         }
+        if($no_threadfound){
+            echo  '<div class="container my-4 text-center ">
+        <div class="jumbotron bg-dark text-white my-3">
+            <h1 class="display-4 mt-3">NO DATA FOUND</h1>
+    <p class="lead"> <?php echo $cat_desc;?></p>
+    <hr class="my-4">
+    <a class="btn btn-success btn-lgv mb-2" href="#" role="button">Learn more</a>
+    </div>
+    </div>';
+    }
     ?>
     <?php 
       require 'element/_footer.php';
