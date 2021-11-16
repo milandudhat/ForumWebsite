@@ -19,13 +19,12 @@
                 <label for="password" class="p-1">Password</label>
                 <input type="password" class="form-control" id="password" name="password">
             </div>
-            <button type="submit" class="btn btn-primary my-2 ">SignUp</button>
+            <button type="submit" class="btn btn-primary my-2 ">Login</button>
         </form>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>

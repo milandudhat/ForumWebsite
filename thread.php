@@ -34,43 +34,85 @@
                 // echo $t_name;
         }
     ?>
-    <div class="container my-4 text-center ">
-        <div class="jumbotron bg-dark text-white my-3">
+
+<?php
+    $t_id = $_GET['t_id'];
+    $showalert = false; 
+        if($_SERVER['REQUEST_METHOD'] == "POST"){
+            $comment = $_POST['comment'];
+            // $th_desc = $_POST['desc'];
+
+            $sql = "INSERT INTO `cmt` (`cmt_content`, `t_id`, `cmt_by`, `cmt_time`) VALUES ('$comment', '$t_id', '0', current_timestamp());";
+            $result = mysqli_query($cont , $sql);
+            $showalert = true;
+            if($showalert){
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>success!</strong> your data submit waiting for responce.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+            }
+        }
+        
+    ?>
+    <div class="container my-4">
+        <div class="jumbotron bg-dark text-white px-4">
             <h1 class="display-4 mt-3"><?php echo $t_name;?></h1>
             <p class="lead"> <?php echo $t_desc;?></p>
             <hr class="my-4">
             <p>This is a peer to peer forum. No Spam / Advertising / Self-promote in the forums is not allowed. Do not
                 post copyright-infringing material. Do not post “offensive” posts, links or images. Do not cross post
                 questions. Remain respectful of other members at all times.</p>
-            <a class="btn btn-success btn-lgv mb-2" href="#" role="button">Learn more</a>
+            <p class="py-2"><b>post by - miln</b></p>
         </div>
+        <!-- <p><b>post by - miln</b></p> -->
     </div>
     <div class="container">
-        <h3>Post Comments</h3>
+        <h1 class="py-2">Post a Comment</h1>
+        <form action=" <?php $_SERVER["REQUEST_URI"] ?>" method="post">
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Type your comment</label>
+                <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+                <!-- <input type="hidden" name="sno" value="'. $_SESSION[" sno"]. '"> -->
+            </div>
+            <button type="submit" class="btn btn-success my-2">Post Comment</button>
+        </form>
     </div>
-    <!-- <?php
-        $cat_id = $_GET['cat_id'];
-        $sql = "SELECT * FROM `thread` WHERE `t_cat_id` = $cat_id";
+    <div class="container">
+        <h1 class="py-2">Discussions</h1>
+    </div>
+    <?php
+        $t_id = $_GET['t_id'];
+        $sql = "SELECT * FROM `cmt` WHERE `t_id` = $t_id";
         $result = mysqli_query($cont , $sql);
-
+        $no_threadfound = true;
 
         while($row = mysqli_fetch_assoc($result)){
-                $t_name = $row['t_name'];
-                $t_desc = $row['t_desc'];
-
+                $cmt_id = $row['cmt_id'];
+                $cmt_content = $row['cmt_content'];
+                $no_threadfound = false;
                 echo '<div class="container my-4 contforques">
                 <div class="d-flex">
                     <div class="flex-shrink-0">
                         <img src="element/user.png" width=50px alt="...">
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <h4><a class="text-dark" href="thread.php?t_id=' . $cat_id . '">' . $t_name . '</a></h4>
-                        '.$t_desc.'
+                    <p class="font-weight-bold my-0">Anonymous User</p> '.$cmt_content.'
                     </div>
                 </div>
             </div>';
         }
-    ?> -->
+
+        if($no_threadfound){
+            echo  '<div class="container my-4 text-center ">
+        <div class="jumbotron bg-dark text-white my-3">
+            <h1 class="display-4 mt-3">NO DATA FOUND</h1>
+    <p class="lead"> <?php echo $cat_desc;?></p>
+    <hr class="my-4">
+    <a class="btn btn-success btn-lgv mb-2" href="#" role="button">Learn more</a>
+    </div>
+    </div>';
+    }
+    ?>
     <?php 
       require 'element/_footer.php';
       ?>

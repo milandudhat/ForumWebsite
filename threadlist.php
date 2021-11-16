@@ -95,6 +95,7 @@
                 $t_id = $row['t_id'];
                 $t_name = $row['t_name'];
                 $t_desc = $row['t_desc'];
+                $time = $row['date'];
 
                 echo '<div class="container my-4 ">
                 <div class="d-flex">
@@ -102,6 +103,7 @@
                         <img src="element/user.png" width=50px alt="...">
                     </div>
                     <div class="flex-grow-1 ms-3">
+                    <p class="font-weight-bold my-0">Anonymous User at '.$time.'</p>
                         <h4><a class="text-dark" href="thread.php?t_id=' . $t_id . '">' . $t_name . '</a></h4>
                         '.$t_desc.'
                     </div>
