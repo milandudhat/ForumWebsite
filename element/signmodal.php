@@ -1,4 +1,5 @@
 <!-- Modal -->
+<?php
 <div class="modal fade" id="signmodal" tabindex="-1" aria-labelledby="signmodal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -9,7 +10,7 @@
       <div class="modal-body">
       <div class="container my-4">
         <h1 class="text-center">Signup to our website</h1>
-        <form action="element/_handle.php" method="POST">
+        <form action="element/_handlesignup.php" method="POST">
             <div class="form-group">
                 <label for="username" class="p-1">Username</label>
                 <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp">
@@ -34,3 +35,5 @@
     </div>
   </div>
 </div>
+
+?>
