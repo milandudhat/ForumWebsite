@@ -1,6 +1,6 @@
 <!-- Modal -->
 <?php
-<div class="modal fade" id="signmodal" tabindex="-1" aria-labelledby="signmodal" aria-hidden="true">
+echo '<div class="modal fade" id="signmodal" tabindex="-1" aria-labelledby="signmodal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -34,6 +34,6 @@
       </div>
     </div>
   </div>
-</div>
+</div>';
 
 ?>

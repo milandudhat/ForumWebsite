@@ -16,7 +16,8 @@
 </footer> -->
 
 <?php
-<footer class="background-footer py-3">
+
+echo '<footer class="background-footer py-3">
         <!-- <div class="inner-footer">
             <div class="social-links">
                 <ul class="responce-media">
@@ -31,7 +32,7 @@
         <p class="ftext ">
             Copyright &copy; 2021 - All rights reserved
         </p>
-    </footer>
+    </footer>';
 
 
     ?>
