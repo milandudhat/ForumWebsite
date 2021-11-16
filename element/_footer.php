@@ -16,7 +16,7 @@
 </footer> -->
 
 
-<footer class="background-footer ">
+<footer class="background-footer py-3">
         <!-- <div class="inner-footer">
             <div class="social-links">
                 <ul class="responce-media">
