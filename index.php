@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    // if(!isset($_SESSION["login"]) || $_SESSION['login'] != true){
+    //   header("location:element/loginmodal.php");
+    // }
+?>
 <!doctype html>
 <html lang="en">
 
@@ -72,7 +78,15 @@
         </button>
     </div>
     <div class="container mx-auto">
-        <h2 class="text-center my-2">Welcome to Q&A.com</h2>
+        <?php
+            if(isset($_SESSION['login']) && $_SESSION['login']==true){
+                echo '<h2 class="text-center my-2">Welcome '.$_SESSION['user_id'].' to our site Q&A.com</h2>';
+                }
+            else{
+                $login = false;
+            }
+            ?>
+            <h2 class="text-center my-2">Q&A - categories</h2>
         <div class="row my-2">
 
 
