@@ -17,12 +17,12 @@
                 session_start();
                 $_SESSION['login'] = true;
                 $_SESSION['user_id'] = $user_id;
-                header('Location: /forum/index.php');
+                $_SESSION['sr_no'] = $row['sr_no'];
+                
             }
-            else{
-                    echo 'unable to login';
-            }
+            header('Location: /forum/index.php');
         }
+        header('Location: /forum/index.php');
     }
 
 ?>

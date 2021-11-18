@@ -14,7 +14,8 @@
 </head>
 
 <body>
-    <?php 
+<?php  
+      require 'element/_database.php';
       require 'element/_header.php';
       ?>
     <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade" data-bs-ride="carousel">
