@@ -1,8 +1,5 @@
 <?php
     session_start();
-    // if(!isset($_SESSION["login"]) || $_SESSION['login'] != true){
-    //   header("location:element/loginmodal.php");
-    // }
 ?>
 <!doctype html>
 <html lang="en">
@@ -21,11 +18,9 @@
 </head>
 
 <body>
-    <?php 
-      require 'element/_header.php';
-      ?>
-    <?php 
+    <?php  
       require 'element/_database.php';
+      require 'element/_header.php';
       ?>
     <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -38,7 +33,7 @@
         </div>
         <div class="carousel-inner carousel-fade">
             <div class="carousel-item active" data-bs-interval="10000">
-                <img src="element/image/1.jpg" class="d-block w-100" alt="...">
+                <img src="element/image/1_.jpg" class="d-block w-100" alt="...">
                 <!-- <div class="carousel-caption d-none d-md-block">
                     <h5 class="text-light">Welcome to code-liner</h5>
                     <p class="text-light">Starategic Design And Technology Agency.</p>
@@ -47,7 +42,7 @@
                 </div> -->
             </div>
             <div class="carousel-item" data-bs-interval="2000">
-                <img src="element/image/2.jpg" class="d-block w-100" alt="...">
+                <img src="element/image/2_.jpg" class="d-block w-100" alt="...">
                 <!-- <div class="carousel-caption d-none d-md-block">
                     <h5 class="text-light">One Stop Solution For All Your Business Needs</h5>
                     <p class="text-light">We know that good design means good business.</p>
@@ -57,7 +52,7 @@
                 </div> -->
             </div>
             <div class="carousel-item">
-                <img src="element/image/3.jpg" class="d-block w-100" alt="...">
+                <img src="element/image/3_.jpg" class="d-block w-100" alt="...">
                 <!-- <div class="carousel-caption d-none d-md-block">
                     <h5 class="text-light">Thinking The High Quality Software</h5>
                     <p class="text-light">services in close partnership with our clients is the only way to have a real
@@ -81,11 +76,14 @@
         <?php
             if(isset($_SESSION['login']) && $_SESSION['login']==true){
                 echo '<h2 class="text-center my-2">Welcome '.$_SESSION['user_id'].' to our site Q&A.com</h2>';
-                }
+                echo'<hr>';    
+            }
             else{
                 $login = false;
             }
+    
             ?>
+            
             <h2 class="text-center my-2">Q&A - categories</h2>
         <div class="row my-2">
 
@@ -102,7 +100,7 @@
                 $cat_desc = $row['cat_desc'];
                 echo '<div class="col-md-4 my-4">
                 <div class="card" style="width: 15rem;">
-                    <img src="https://source.unsplash.com/collection/190727/500x400" class="card-img-top" alt="...">
+                    <img src="element/image/'.$cat_id. '.jpg" class="card-img-top" alt="image for this category">
                     <div class="card-body">
                         <h5 class="card-title text-dark"><a class="text-dark" href="threadlist.php?cat_id=' . $cat_id . '">' . $cat_name . '</a></h5>
                         <p class="card-text">'.$cat_desc.'</p>

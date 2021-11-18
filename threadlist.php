@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!doctype html>
 <html lang="en">
 
@@ -32,6 +35,8 @@
         while($row = mysqli_fetch_assoc($result)){
                 $cat_name = $row['cat_name'];
                 $cat_desc = $row['cat_desc'];
+
+                
         }
     ?>
     <?php
@@ -40,7 +45,9 @@
             $th_title = $_POST['title'];
             $th_desc = $_POST['desc'];
 
-            $sql = "INSERT INTO `thread` (`t_name`, `t_desc`, `t_cat_id`, `t_user_id`, `date`) VALUES ('$th_title', '$th_desc', '$cat_id', '0', current_timestamp());";
+            $sr_no = $_POST['sr_no'];
+
+            $sql = "INSERT INTO `thread` (`t_name`, `t_desc`, `t_cat_id`, `t_user_id`, `date`) VALUES ('$th_title', '$th_desc', '$cat_id', '$sr_no', current_timestamp());";
             $result = mysqli_query($cont , $sql);
             $showalert = true;
             if($showalert){
@@ -63,24 +70,37 @@
             <a class="btn btn-success btn-lgv mb-2" href="#" role="button">Learn more</a>
         </div>
     </div>
-
-    <div class="container">
+    <?php
+    if(isset($_SESSION['login']) && $_SESSION['login']==true){
+        // echo 'yes';
+        echo '<div class="container">
         <h2>Start discussion</h2>
-        <form action=" <?php $_SERVER["REQUEST_URI"] ?>" method="post">
+        <form action=" '.$_SERVER['REQUEST_URI'] .'" method="POST">
             <div class="form-group">
                 <label for="exampleInputEmail1">Problem Title</label>
                 <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
                 <small id="emailHelp" class="form-text text-muted">Keep your title as short and crisp as
                     possible</small>
             </div>
-            <input type="hidden" name="sno" value="">
+            <input type="hidden" name="sr_no" value="'. $_SESSION["sr_no"]. '">
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Ellaborate Your Concern</label>
                 <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
             </div>
             <button type="submit" class="btn btn-success my-2">Submit</button>
         </form>
+    </div>';
+}
+else{
+    echo '
+    <div class="container">
+    <h1 class="py-2">Start a Discussion</h1> 
+       <p class="lead">You are not logged in. Please login to be able to start a Discussion</p>
     </div>
+    ';
+}
+
+?>
     <div class="container">
         <h3>Browse Questions</h3>
     </div>
@@ -97,13 +117,19 @@
                 $t_desc = $row['t_desc'];
                 $time = $row['date'];
 
+                $t_user_id = $row['t_user_id']; 
+                $sql2 = "SELECT user_id FROM `user` WHERE sr_no='$t_user_id'";
+                $result2 = mysqli_query($cont, $sql2);
+                $row2 = mysqli_fetch_assoc($result2);
+
+
                 echo '<div class="container my-4 ">
                 <div class="d-flex">
                     <div class="flex-shrink-0">
                         <img src="element/user.png" width=50px alt="...">
                     </div>
                     <div class="flex-grow-1 ms-3">
-                    <p class="font-weight-bold my-0">Anonymous User at '.$time.'</p>
+                    <p class="font-weight-bold my-0">'.$row2['user_id'].' at '.$time.'</p>
                         <h4><a class="text-dark" href="thread.php?t_id=' . $t_id . '">' . $t_name . '</a></h4>
                         '.$t_desc.'
                     </div>
@@ -115,8 +141,6 @@
         <div class="jumbotron bg-dark text-white my-3">
             <h1 class="display-4 mt-3">NO DATA FOUND</h1>
     <p class="lead"> <?php echo $cat_desc;?></p>
-    <hr class="my-4">
-    <a class="btn btn-success btn-lgv mb-2" href="#" role="button">Learn more</a>
     </div>
     </div>';
     }

@@ -1,13 +1,7 @@
 <?php
- if(isset($_SESSION['login']) && $_SESSION['login']==true){
-  $login= true;
-}
-else{
-  $login = false;
-}
 echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top ">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/login/index.php">Code-liner</a>
+      <a class="navbar-brand" href="/forum/index.php">Q&A.com</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -22,14 +16,20 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top ">
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-         Category
+          Top Category
         </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
+        $sql = "SELECT `cat_name`  FROM `category`";
+        $result = mysqli_query($cont , $sql);
+        while($row = mysqli_fetch_assoc($result)){
+          echo '
+          <li><a class="dropdown-item" href="#">'.$row['cat_name'].'</a></li>';
+        }
+        echo '</ul>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
+        </ul>';
+        echo'
         <li class="nav-item">
         <a class="nav-link" href="contact.php">Contectus</a>
       </li>
@@ -44,10 +44,10 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top ">
             type="submit">Login</button>
           <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#singup"
             type="submit" href="/login/signup.php">Singup</button> -->';
-            if($login){
+            if(isset($_SESSION['login']) && $_SESSION['login']==true){
               echo '<a class="btn btn-outline-danger" href="element/_logout.php" role="button">Logout</a>';
             }
-            if(!$login){
+            else{
               echo '
               <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#loginmodal""
               type="submit">Login</button>

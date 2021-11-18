@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!doctype html>
 <html lang="en">
 
@@ -32,6 +35,12 @@
                 $t_name = $row['t_name'];
                 $t_desc = $row['t_desc'];
                 // echo $t_name;
+
+                $t_user_id = $row['t_user_id']; 
+                $sql2 = "SELECT user_id FROM `user` WHERE sr_no='$t_user_id'";
+                $result2 = mysqli_query($cont, $sql2);
+                $row2 = mysqli_fetch_assoc($result2);
+                $post = $row2['user_id'];
         }
     ?>
 
@@ -40,9 +49,10 @@
     $showalert = false; 
         if($_SERVER['REQUEST_METHOD'] == "POST"){
             $comment = $_POST['comment'];
+            $sr_no = $_POST['sr_no'];
             // $th_desc = $_POST['desc'];
 
-            $sql = "INSERT INTO `cmt` (`cmt_content`, `t_id`, `cmt_by`, `cmt_time`) VALUES ('$comment', '$t_id', '0', current_timestamp());";
+            $sql = "INSERT INTO `cmt` (`cmt_content`, `t_id`, `cmt_by`, `cmt_time`) VALUES ('$comment', '$t_id', '$sr_no', current_timestamp());";
             $result = mysqli_query($cont , $sql);
             $showalert = true;
             if($showalert){
@@ -62,21 +72,35 @@
             <p>This is a peer to peer forum. No Spam / Advertising / Self-promote in the forums is not allowed. Do not
                 post copyright-infringing material. Do not post “offensive” posts, links or images. Do not cross post
                 questions. Remain respectful of other members at all times.</p>
-            <p class="py-2"><b>post by - miln</b></p>
+            <p class="py-2"><b>post by - <?php echo $post; ?></b></p>
         </div>
         <!-- <p><b>post by - miln</b></p> -->
     </div>
-    <div class="container">
+
+
+    <?php
+    if(isset($_SESSION['login']) && $_SESSION['login']==true){
+        echo '<div class="container">
         <h1 class="py-2">Post a Comment</h1>
-        <form action=" <?php $_SERVER["REQUEST_URI"] ?>" method="post">
+        <form action="'.$_SERVER["REQUEST_URI"].'" method="post">
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Type your comment</label>
                 <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
-                <!-- <input type="hidden" name="sno" value="'. $_SESSION[" sno"]. '"> -->
+                <input type="hidden" name="sr_no" value="'. $_SESSION["sr_no"]. '">
             </div>
             <button type="submit" class="btn btn-success my-2">Post Comment</button>
         </form>
-    </div>
+    </div>';
+}
+else{
+    echo '   
+        <div class="container">
+        <h1 class="py-2">Post a Comment</h1> 
+           <p class="lead">You are not logged in. Please login to be able to post comments.</p>
+        </div>
+        ';
+}
+?>
     <div class="container">
         <h1 class="py-2">Discussions</h1>
     </div>
@@ -89,6 +113,13 @@
         while($row = mysqli_fetch_assoc($result)){
                 $cmt_id = $row['cmt_id'];
                 $cmt_content = $row['cmt_content'];
+                $time = $row['cmt_time'];
+
+                $cmt_by = $row['cmt_by']; 
+                $sql2 = "SELECT user_id FROM `user` WHERE sr_no='$cmt_by'";
+                $result2 = mysqli_query($cont, $sql2);
+                $row2 = mysqli_fetch_assoc($result2);
+
                 $no_threadfound = false;
                 echo '<div class="container my-4 contforques">
                 <div class="d-flex">
@@ -96,7 +127,7 @@
                         <img src="element/user.png" width=50px alt="...">
                     </div>
                     <div class="flex-grow-1 ms-3">
-                    <p class="font-weight-bold my-0">Anonymous User</p> '.$cmt_content.'
+                    <p class="font-weight-bold my-0">'.$row2['user_id'].' at '.$time.'</p> '.$cmt_content.'
                     </div>
                 </div>
             </div>';
@@ -107,8 +138,6 @@
         <div class="jumbotron bg-dark text-white my-3">
             <h1 class="display-4 mt-3">NO DATA FOUND</h1>
     <p class="lead"> <?php echo $cat_desc;?></p>
-    <hr class="my-4">
-    <a class="btn btn-success btn-lgv mb-2" href="#" role="button">Learn more</a>
     </div>
     </div>';
     }
